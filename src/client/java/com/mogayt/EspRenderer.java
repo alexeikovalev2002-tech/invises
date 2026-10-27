@@ -14,7 +14,7 @@ import org.joml.Matrix4f;
 public class EspRenderer {
 
     public static void register() {
-        WorldRenderEvents.LAST.register(EspRenderer::render);
+        WorldRenderEvents.AFTER_ENTITIES.register(EspRenderer::render);
     }
 
     private static void render(WorldRenderContext context) {
@@ -42,7 +42,6 @@ public class EspRenderer {
             float y2 = (float) (box.maxY - cameraPos.y);
             float z2 = (float) (box.maxZ - cameraPos.z);
 
-            // Красный контур (толщина 1)
             drawBox(matrix, buffer, x1, y1, z1, x2, y2, z2, 1f, 0f, 0f);
         }
     }
@@ -51,7 +50,6 @@ public class EspRenderer {
                                 float x1, float y1, float z1,
                                 float x2, float y2, float z2,
                                 float r, float g, float b) {
-        // 12 рёбер куба
         line(matrix, buffer, x1, y1, z1, x2, y1, z1, r, g, b);
         line(matrix, buffer, x1, y1, z1, x1, y2, z1, r, g, b);
         line(matrix, buffer, x1, y1, z1, x1, y1, z2, r, g, b);
@@ -70,7 +68,7 @@ public class EspRenderer {
                              float x1, float y1, float z1,
                              float x2, float y2, float z2,
                              float r, float g, float b) {
-        buffer.vertex(matrix, x1, y1, z1).color(r, g, b, 1f).normal(0f, 1f, 0f);
-        buffer.vertex(matrix, x2, y2, z2).color(r, g, b, 1f).normal(0f, 1f, 0f);
+        buffer.vertex(matrix, x1, y1, z1).color(r, g, b, 1f);
+        buffer.vertex(matrix, x2, y2, z2).color(r, g, b, 1f);
     }
 }
