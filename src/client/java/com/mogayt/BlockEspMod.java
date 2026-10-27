@@ -1,14 +1,10 @@
 package com.mogayt;
 
-import com.mojang.blaze3d.vertex.VertexFormat;
-import com.mojang.blaze3d.vertex.VertexFormats;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.RenderPhase;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
@@ -24,24 +20,10 @@ public class BlockEspMod implements ClientModInitializer {
     public static final List<PlayerEntity> foundInvisiblePlayers = new ArrayList<>();
 
     private static KeyBinding openMenuKey;
-    public static final KeyBinding.Category CATEGORY = KeyBinding.Category.register(
+    // В 1.21.11 категория создаётся через create, а не register
+    public static final KeyBinding.Category CATEGORY = KeyBinding.Category.create(
             Identifier.of("mog-mod", "keys")
     );
-
-    public static final RenderLayer THROUGH_WALLS = RenderLayer.of(
-            "mog-mod-through-walls",
-            VertexFormats.POSITION_COLOR,
-            VertexFormat.DrawMode.DEBUG_LINES,
-            1536,
-            false,
-            true,
-            RenderLayer.MultiPhaseParameters.builder()
-                    .program(RenderPhase.LINES_PROGRAM)
-                    .transparency(RenderPhase.TRANSLUCENT_TRANSPARENCY)
-                    .depthTest(RenderPhase.ALWAYS_DEPTH_TEST)
-                    .writeMaskState(RenderPhase.COLOR_MASK)
-                    .cull(RenderPhase.DISABLE_CULLING)
-                    .build(false));
 
     @Override
     public void onInitializeClient() {
